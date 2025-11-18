@@ -1,4 +1,4 @@
-import { getAllPosts, getPostsByCategory } from '@/lib/posts'
+import { getPostsByCategory } from '@/lib/posts'
 import PostCard from '@/components/PostCard'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'

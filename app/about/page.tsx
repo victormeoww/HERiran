@@ -51,7 +51,7 @@ export default function AboutPage() {
 
             <h2>Why This Blog Exists</h2>
             <p>
-              The stories you hear about Iran are often filtered, politicized, or incomplete. I write to offer something more honest: a direct, unfiltered look at life here — the struggles, the beauty, the contradictions, and the truths that don't make international headlines.
+              The stories you hear about Iran are often filtered, politicized, or incomplete. I write to offer something more honest: a direct, unfiltered look at life here — the struggles, the beauty, the contradictions, and the truths that don&apos;t make international headlines.
             </p>
 
             <p>

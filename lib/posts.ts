@@ -89,7 +89,7 @@ export function formatDate(dateString: string): string {
   return format(new Date(dateString), 'MMMM d, yyyy')
 }
 
-export function getPageContent(pageName: string): { content: string; data: any } | null {
+export function getPageContent(pageName: string): { content: string; data: Record<string, unknown> } | null {
   try {
     const fullPath = path.join(process.cwd(), 'content/pages', `${pageName}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
