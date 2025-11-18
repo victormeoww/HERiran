@@ -58,7 +58,7 @@ export default function AboutPage() {
               I remain anonymous for my safety and the safety of those around me. This is not a choice; it is a necessity.
             </p>
 
-            <h2>What You'll Find Here</h2>
+            <h2>What You&apos;ll Find Here</h2>
             <ul>
               <li><strong>Essays</strong> — Longer reflections on Iranian society, culture, politics, and personal experience.</li>
               <li><strong>Breaking News</strong> — Real-time updates on events inside Iran that may not be widely reported.</li>
