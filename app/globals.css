@@ -3,12 +3,16 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
   body {
-    @apply font-serif;
+    @apply font-serif bg-cream text-charcoal selection:bg-burgundy/20 selection:text-burgundy;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display;
+    @apply font-display font-bold text-charcoal;
   }
 }
 
@@ -18,8 +22,13 @@
   }
   
   .fade-in {
-    animation: fadeIn 0.8s ease-in-out;
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
   }
+  
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
   
   @keyframes fadeIn {
     from {
@@ -32,94 +41,104 @@
     }
   }
   
-  .hover-lift {
-    transition: all 0.3s ease;
-  }
-  
-  .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-  }
-  
   .underline-slide {
     position: relative;
+    text-decoration: none;
   }
   
   .underline-slide::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 2px;
+    height: 1px; /* Thinner line */
     bottom: -2px;
     left: 0;
-    background-color: #8B1538;
+    background-color: currentColor; /* Use current text color */
     transition: width 0.3s ease;
   }
   
   .underline-slide:hover::after {
     width: 100%;
   }
+  
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-charcoal/20 hover:bg-charcoal/40 transition-colors rounded-full;
+  }
 }
 
-/* Prose styles for markdown content */
+/* Prose styles for markdown content - HIGH END EDITORIAL STYLE */
 .prose {
-  @apply text-charcoal;
+  @apply text-charcoal max-w-none;
 }
 
 .prose p {
-  @apply text-lg md:text-xl leading-relaxed mb-6;
+  @apply text-xl leading-relaxed mb-8 font-serif;
+  /* Optimal line length and height for reading */
 }
 
 .prose h2 {
-  @apply text-3xl md:text-4xl font-display font-bold mt-12 mb-6;
+  @apply text-3xl md:text-4xl font-display font-bold mt-16 mb-8 tracking-tight text-charcoal;
 }
 
 .prose h3 {
-  @apply text-2xl md:text-3xl font-display font-semibold mt-10 mb-4;
+  @apply text-2xl md:text-3xl font-display font-semibold mt-12 mb-6 text-charcoal;
 }
 
 .prose a {
-  @apply text-burgundy underline-slide;
+  @apply text-burgundy underline underline-offset-4 decoration-1 decoration-burgundy/40 hover:decoration-burgundy transition-all;
 }
 
 .prose blockquote {
-  @apply border-l-4 border-burgundy pl-6 italic my-8 text-xl;
+  @apply border-l-2 border-burgundy pl-8 italic my-12 text-2xl text-charcoal font-display bg-transparent;
 }
 
 .prose ul, .prose ol {
-  @apply my-6 pl-8 space-y-2;
+  @apply my-8 pl-6 space-y-4 marker:text-burgundy;
 }
 
 .prose li {
-  @apply text-lg md:text-xl leading-relaxed;
+  @apply text-xl leading-relaxed pl-2;
+}
+
+.prose strong {
+  @apply font-bold text-charcoal;
 }
 
 .prose code {
-  @apply bg-light-gray px-2 py-1 rounded text-base font-mono;
+  @apply bg-sand px-1.5 py-0.5 rounded text-base font-mono text-burgundy border border-burgundy/10;
 }
 
 .prose pre {
-  @apply bg-light-gray p-6 rounded-lg overflow-x-auto my-6;
+  @apply bg-charcoal text-cream p-8 rounded-none overflow-x-auto my-10 text-sm border-l-4 border-burgundy;
 }
 
 .prose pre code {
-  @apply bg-transparent p-0;
+  @apply bg-transparent p-0 text-cream border-none;
 }
 
 .prose img {
-  @apply w-full rounded-lg my-8;
+  @apply w-full h-auto my-12 block;
 }
 
 .prose hr {
-  @apply my-12 border-0 h-px bg-gradient-to-r from-transparent via-burgundy to-transparent;
+  @apply my-16 border-0 h-px bg-charcoal/10;
 }
 
-/* Drop cap */
-.prose p:first-of-type::first-letter {
-  @apply text-6xl font-display font-bold float-left mr-2 leading-none text-burgundy;
+/* Drop cap - Classical Style */
+.prose > p:first-of-type::first-letter {
+  @apply text-6xl md:text-7xl font-display font-bold float-left mr-3 mt-2 leading-none text-burgundy;
 }
 
-/* Pull quotes */
+/* Pull quotes utility */
 .prose .pullquote {
-  @apply text-2xl md:text-3xl font-display italic text-burgundy my-12 text-center;
+  @apply text-3xl md:text-4xl font-display italic text-burgundy my-16 text-center leading-tight max-w-3xl mx-auto border-y border-burgundy/10 py-12;
 }

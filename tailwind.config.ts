@@ -9,12 +9,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        cream: '#FAF9F6',
-        charcoal: '#2C2C2C',
-        burgundy: '#8B1538',
-        saffron: '#F4C430',
-        teal: '#008B8B',
-        'light-gray': '#E5E5E5',
+        cream: '#FDFCF8', // Lighter, cleaner
+        charcoal: '#1A1A1A', // Darker for better contrast
+        burgundy: '#8B1538', // Deep red (classic)
+        saffron: '#E6AF2E', // Muted gold
+        teal: '#2E8B8B', // Deep teal
+        'light-gray': '#E8E8E8',
+        sand: '#F5F5F0', // Slightly darker cream for cards/sections
       },
       fontFamily: {
         serif: ['var(--font-crimson)', 'Georgia', 'serif'],
@@ -22,7 +23,10 @@ const config: Config = {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       maxWidth: {
-        'article': '680px',
+        'article': '720px', // Slightly wider for readability
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.8s ease-in-out forwards',
       },
     },
   },

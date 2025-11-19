@@ -43,26 +43,26 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const posts = getPostsByCategory(category)
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-cream">
       {/* Category Header */}
-      <section className="bg-cream py-16 md:py-24">
+      <section className="pt-24 pb-16 border-b border-charcoal/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <Link 
-            href="/"
-            className="inline-flex items-center text-charcoal/60 hover:text-burgundy transition-colors font-sans text-sm mb-8 group"
-          >
-            <svg className="w-4 h-4 mr-2 group-hover:mr-3 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to home
-          </Link>
-
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-charcoal mb-6">
-            {category}
-          </h1>
-          
-          <div className="flex justify-start">
-            <PersianPattern variant="divider" className="w-48 h-6 text-burgundy" opacity={0.3} />
+          <div className="flex flex-col items-center text-center">
+            <span className="text-xs font-sans font-bold tracking-[0.2em] uppercase text-burgundy mb-4">
+              Browsing Category
+            </span>
+            
+            <h1 className="text-5xl md:text-7xl font-display font-bold text-charcoal mb-8">
+              {category}
+            </h1>
+            
+            <div className="w-24 h-1 bg-burgundy/20 rounded-full mb-8"></div>
+            
+            <p className="text-xl font-serif text-charcoal/60 max-w-2xl">
+              {category === 'Essay' && "In-depth analysis and reflections on culture and politics."}
+              {category === 'Breaking News' && "Urgent updates and reports from the ground."}
+              {category === 'Personal' && "Intimate stories and observations from daily life."}
+            </p>
           </div>
         </div>
       </section>
@@ -70,7 +70,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
       {/* Posts Grid */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 py-24">
         {posts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
             {posts.map((post, index) => (
               <div 
                 key={post.slug}
@@ -84,14 +84,14 @@ export default function CategoryPage({ params }: CategoryPageProps) {
         ) : (
           <div className="text-center py-20">
             <PersianPattern variant="star" className="w-24 h-24 text-burgundy opacity-10 mx-auto mb-8" />
-            <p className="text-xl text-charcoal/60 font-serif">
-              No {category.toLowerCase()} posts yet.
+            <p className="text-xl text-charcoal/60 font-serif mb-8">
+              No posts found in this category.
             </p>
             <Link 
               href="/"
-              className="inline-block mt-6 text-burgundy font-sans text-sm uppercase tracking-wide hover:underline"
+              className="text-burgundy border-b border-burgundy/30 hover:border-burgundy pb-1 transition-all"
             >
-              Browse all posts
+              Return to Homepage
             </Link>
           </div>
         )}
@@ -99,4 +99,3 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     </div>
   )
 }
-

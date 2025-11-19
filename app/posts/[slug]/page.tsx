@@ -51,99 +51,87 @@ export default function PostPage({ params }: PostPageProps) {
   }
 
   return (
-    <article className="min-h-screen">
-      {/* Back Navigation */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-8">
-        <Link 
-          href="/"
-          className="inline-flex items-center text-charcoal/60 hover:text-burgundy transition-colors font-sans text-sm group"
-        >
-          <svg className="w-4 h-4 mr-2 group-hover:mr-3 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to all posts
-        </Link>
-      </div>
-
+    <article className="min-h-screen bg-cream selection:bg-burgundy/10">
       {/* Article Header */}
-      <header className="max-w-article mx-auto px-6 md:px-12 py-12 md:py-16">
-        <div className="flex items-center space-x-3 mb-6">
-          <span className={`text-xs font-sans uppercase tracking-widest ${categoryColors[post.frontmatter.category]}`}>
+      <header className="max-w-4xl mx-auto px-6 md:px-12 pt-24 md:pt-32 pb-12 md:pb-16 text-center">
+        <div className="flex items-center justify-center space-x-4 mb-8 text-xs font-sans tracking-[0.2em] uppercase text-charcoal/60">
+          <Link href={`/category/${post.frontmatter.category}`} className="text-burgundy hover:underline">
             {post.frontmatter.category}
-          </span>
-          <span className="text-charcoal/30">·</span>
-          <span className="text-sm font-sans text-charcoal/60">
-            {formatDate(post.frontmatter.date)}
-          </span>
-          <span className="text-charcoal/30">·</span>
-          <span className="text-sm font-sans text-charcoal/50">
-            {post.readTime} min read
-          </span>
+          </Link>
+          <span>|</span>
+          <span>{formatDate(post.frontmatter.date)}</span>
         </div>
 
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-charcoal leading-tight mb-8 text-balance">
+        <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-charcoal leading-[1.1] mb-12 text-balance">
           {post.frontmatter.title}
         </h1>
 
-        {/* Decorative Divider */}
-        <div className="flex justify-start mb-8">
-          <PersianPattern variant="divider" className="w-48 h-6 text-burgundy" opacity={0.3} />
+        <div className="flex justify-center mb-12">
+          <PersianPattern variant="divider" className="w-32 md:w-64 h-4 text-burgundy" opacity={0.4} />
         </div>
 
-        <p className="text-xl md:text-2xl text-charcoal/70 leading-relaxed italic">
+        <p className="text-2xl md:text-3xl font-display italic text-charcoal/80 leading-relaxed max-w-2xl mx-auto">
           {post.frontmatter.excerpt}
         </p>
       </header>
 
       {/* Article Content */}
-      <div className="max-w-article mx-auto px-6 md:px-12 pb-16">
-        <div className="prose">
+      <div className="max-w-[720px] mx-auto px-6 pb-24">
+        <div className="prose prose-lg md:prose-xl">
           <MDXRemote source={post.content} />
+        </div>
+        
+        {/* End Mark */}
+        <div className="flex justify-center mt-16 mb-24">
+           <div className="w-2 h-2 bg-burgundy rounded-full mx-1"></div>
+           <div className="w-2 h-2 bg-burgundy rounded-full mx-1"></div>
+           <div className="w-2 h-2 bg-burgundy rounded-full mx-1"></div>
         </div>
       </div>
 
-      {/* Decorative Pattern */}
-      <div className="flex justify-center py-12">
-        <PersianPattern variant="geometric" className="w-16 h-16 text-burgundy opacity-20" />
-      </div>
+      {/* Navigation Footer */}
+      <nav className="bg-white border-t border-charcoal/5 py-24">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <h3 className="text-center text-xs font-sans font-bold tracking-[0.2em] uppercase text-charcoal/40 mb-16">
+            More Stories
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-8">
+            {prevPost && (
+              <Link 
+                href={`/posts/${prevPost.slug}`}
+                className="group text-center md:text-left block"
+              >
+                <span className="text-xs font-sans text-charcoal/40 mb-4 block group-hover:text-burgundy transition-colors">Previous</span>
+                <h4 className="text-3xl font-display font-bold text-charcoal group-hover:text-burgundy transition-colors">
+                  {prevPost.frontmatter.title}
+                </h4>
+              </Link>
+            )}
 
-      {/* Previous/Next Navigation */}
-      <nav className="max-w-7xl mx-auto px-6 md:px-12 py-16 border-t border-light-gray">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {prevPost ? (
-            <Link 
-              href={`/posts/${prevPost.slug}`}
-              className="group text-left"
+            {nextPost && (
+              <Link 
+                href={`/posts/${nextPost.slug}`}
+                className="group text-center md:text-right block"
+              >
+                <span className="text-xs font-sans text-charcoal/40 mb-4 block group-hover:text-burgundy transition-colors">Next</span>
+                <h4 className="text-3xl font-display font-bold text-charcoal group-hover:text-burgundy transition-colors">
+                  {nextPost.frontmatter.title}
+                </h4>
+              </Link>
+            )}
+          </div>
+          
+          <div className="text-center mt-24">
+             <Link 
+              href="/"
+              className="inline-flex items-center justify-center px-8 py-4 border border-charcoal/10 rounded-full text-xs font-sans font-bold tracking-[0.2em] uppercase text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300"
             >
-              <span className="text-xs font-sans uppercase tracking-widest text-charcoal/50 mb-2 block">
-                Previous Post
-              </span>
-              <h3 className="text-xl md:text-2xl font-display font-semibold text-charcoal group-hover:text-burgundy transition-colors">
-                {prevPost.frontmatter.title}
-              </h3>
+              Back to Home
             </Link>
-          ) : (
-            <div />
-          )}
-
-          {nextPost ? (
-            <Link 
-              href={`/posts/${nextPost.slug}`}
-              className="group text-left md:text-right"
-            >
-              <span className="text-xs font-sans uppercase tracking-widest text-charcoal/50 mb-2 block">
-                Next Post
-              </span>
-              <h3 className="text-xl md:text-2xl font-display font-semibold text-charcoal group-hover:text-burgundy transition-colors">
-                {nextPost.frontmatter.title}
-              </h3>
-            </Link>
-          ) : (
-            <div />
-          )}
+          </div>
         </div>
       </nav>
     </article>
   )
 }
-

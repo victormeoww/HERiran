@@ -2,59 +2,80 @@ import Link from 'next/link'
 import PersianPattern from './PersianPattern'
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear()
+  
   return (
-    <footer className="bg-cream border-t border-light-gray mt-24">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-        {/* Persian Pattern Divider */}
-        <div className="flex justify-center mb-8">
-          <PersianPattern 
-            variant="divider" 
-            className="w-48 h-6 text-burgundy" 
-            opacity={0.3}
-          />
-        </div>
-
-        {/* Footer Content */}
-        <div className="text-center space-y-4">
-          <p className="text-sm font-sans text-charcoal/70">
-            © 2025 HER iran · An anonymous voice from inside Iran
-          </p>
+    <footer className="bg-charcoal text-cream mt-32 pt-24 pb-12 border-t-4 border-burgundy">
+      <div className="max-w-7xl mx-auto px-6 md:px-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24 mb-16">
           
-          <div className="flex items-center justify-center space-x-6 text-sm font-sans">
-            <a 
-              href="mailto:heriran@protonmail.com" 
-              className="text-charcoal/70 hover:text-burgundy transition-colors underline-slide"
-            >
-              Secure Contact
-            </a>
-            <span className="text-charcoal/30">·</span>
-            <Link 
-              href="/rss.xml" 
-              className="text-charcoal/70 hover:text-burgundy transition-colors underline-slide"
-            >
-              RSS Feed
+          {/* Brand Column */}
+          <div className="md:col-span-5 space-y-6">
+            <Link href="/" className="inline-block">
+              <h2 className="text-4xl font-display font-bold text-cream">
+                HER <span className="text-burgundy italic">iran</span>
+              </h2>
             </Link>
-            <span className="text-charcoal/30">·</span>
-            <Link 
-              href="/about" 
-              className="text-charcoal/70 hover:text-burgundy transition-colors underline-slide"
-            >
-              About
-            </Link>
+            <p className="text-lg font-serif text-cream/80 leading-relaxed max-w-md">
+              An anonymous platform amplifying the voices of Iranian women. Uncensored, unfiltered, and resilient.
+            </p>
           </div>
 
-          <p className="text-xs font-sans text-charcoal/50 max-w-2xl mx-auto pt-4">
-            This platform prioritizes anonymity and security. No tracking, no analytics, no comments.
-            Share this site carefully and use secure connections.
-          </p>
+          {/* Links Column */}
+          <div className="md:col-span-3 md:col-start-7 space-y-6">
+            <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-burgundy">Platform</h3>
+            <ul className="space-y-4">
+              <li>
+                <Link href="/about" className="text-cream/80 hover:text-white hover:underline decoration-burgundy underline-offset-4 transition-all">
+                  Mission & About
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/Essay" className="text-cream/80 hover:text-white hover:underline decoration-burgundy underline-offset-4 transition-all">
+                  Essays
+                </Link>
+              </li>
+              <li>
+                <Link href="/category/Breaking News" className="text-cream/80 hover:text-white hover:underline decoration-burgundy underline-offset-4 transition-all">
+                  Breaking News
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Connect Column */}
+          <div className="md:col-span-3 space-y-6">
+            <h3 className="text-xs font-sans uppercase tracking-[0.2em] text-burgundy">Connect</h3>
+            <ul className="space-y-4">
+              <li>
+                <a href="mailto:heriran@protonmail.com" className="text-cream/80 hover:text-white hover:underline decoration-burgundy underline-offset-4 transition-all">
+                  Secure Contact
+                </a>
+              </li>
+              <li>
+                <Link href="/rss.xml" className="text-cream/80 hover:text-white hover:underline decoration-burgundy underline-offset-4 transition-all">
+                  RSS Feed
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Decorative Pattern */}
-        <div className="flex justify-center mt-8 opacity-10">
-          <PersianPattern variant="geometric" className="w-16 h-16 text-burgundy" />
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-xs font-sans text-cream/40 tracking-wide">
+            © {currentYear} HER IRAN. NO RIGHTS RESERVED.
+          </p>
+          
+          <div className="flex items-center gap-2">
+            <PersianPattern variant="geometric" className="w-6 h-6 text-burgundy opacity-50" />
+          </div>
+
+          <p className="text-xs font-sans text-cream/40 tracking-wide md:text-right">
+            SECURE & ANONYMOUS
+          </p>
         </div>
       </div>
     </footer>
   )
 }
-

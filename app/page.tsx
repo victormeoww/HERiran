@@ -5,72 +5,84 @@ import PersianPattern from '@/components/PersianPattern'
 export default function HomePage() {
   const featuredPost = getFeaturedPost()
   const allPosts = getAllPosts()
-  const recentPosts = allPosts.filter(post => post.slug !== featuredPost?.slug).slice(0, 6)
+  // Filter out featured post, then slice
+  const otherPosts = allPosts.filter(post => post.slug !== featuredPost?.slug)
+  
+  // Split posts for layout variety
+  const mainPosts = otherPosts.slice(0, 4)
+  const sidePosts = otherPosts.slice(4, 8)
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-cream py-16 md:py-24 overflow-hidden">
-        <div className="absolute top-10 right-10 opacity-5">
-          <PersianPattern variant="star" className="w-48 h-48 text-burgundy" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-display font-bold mb-6 text-charcoal fade-in">
-            HER <span className="text-burgundy">iran</span>
-          </h1>
-          <p className="text-xl md:text-2xl font-serif text-charcoal/70 max-w-2xl mx-auto fade-in">
-            An anonymous voice from inside Iran
-          </p>
+    <div className="min-h-screen bg-cream">
+      {/* Hero / Featured Section */}
+      <section className="relative pt-12 md:pt-24 pb-12 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
           
-          {/* Decorative Divider */}
-          <div className="flex justify-center mt-12">
-            <PersianPattern variant="divider" className="w-64 h-8 text-burgundy" opacity={0.3} />
+          {/* Header Statement */}
+          <div className="text-center mb-20 fade-in">
+             <div className="flex justify-center mb-6 opacity-40">
+              <PersianPattern variant="star" className="w-12 h-12 text-burgundy" />
+            </div>
+            <h1 className="text-xl md:text-2xl font-display italic text-charcoal/60 max-w-xl mx-auto leading-relaxed">
+              "Voices from the shadows, speaking truth to power."
+            </h1>
           </div>
+
+          {featuredPost && (
+            <div className="fade-in delay-100">
+              <PostCard post={featuredPost} featured />
+            </div>
+          )}
         </div>
       </section>
 
-      {/* Featured Post */}
-      {featuredPost && (
-        <section className="max-w-7xl mx-auto px-6 md:px-12 -mt-8 mb-24 fade-in">
-          <PostCard post={featuredPost} featured />
-        </section>
-      )}
-
-      {/* Recent Posts */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pb-24">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal">
-            Recent Writing
+      {/* Main Content Grid */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 pb-32">
+        <div className="flex items-baseline justify-between mb-12 border-b border-charcoal/10 pb-4">
+          <h2 className="text-xs font-sans font-bold tracking-[0.2em] uppercase text-charcoal">
+            Latest Stories
           </h2>
         </div>
 
-        {recentPosts.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-20">
-            {recentPosts.map((post, index) => (
-              <div 
-                key={post.slug} 
-                className="fade-in"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+          {/* Main Column */}
+          <div className="lg:col-span-8 space-y-20">
+            {mainPosts.map((post, index) => (
+              <div key={post.slug} className="fade-in" style={{ animationDelay: `${index * 100}ms` }}>
                 <PostCard post={post} />
               </div>
             ))}
           </div>
-        ) : (
-          <div className="text-center py-20">
-            <p className="text-xl text-charcoal/60 font-serif">
-              No posts yet. Check back soon.
-            </p>
-          </div>
-        )}
-      </section>
 
-      {/* Decorative Footer Pattern */}
-      <div className="flex justify-center pb-12">
-        <PersianPattern variant="geometric" className="w-20 h-20 text-burgundy opacity-10" />
-      </div>
+          {/* Sidebar Column */}
+          <div className="lg:col-span-4 space-y-12">
+            <div className="sticky top-32">
+              <div className="bg-sand/50 p-8 rounded-sm border border-charcoal/5 mb-12">
+                <h3 className="font-display text-2xl font-bold text-charcoal mb-4">About HER iran</h3>
+                <p className="font-serif text-charcoal/70 mb-6 leading-relaxed">
+                  An independent, anonymous platform documenting the struggle for freedom in Iran. 
+                </p>
+                <div className="flex justify-center">
+                   <PersianPattern variant="divider" className="w-full h-4 text-burgundy opacity-20" />
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                 <h3 className="text-xs font-sans font-bold tracking-[0.2em] uppercase text-charcoal border-b border-charcoal/10 pb-2">
+                  More Writing
+                </h3>
+                {sidePosts.length > 0 ? (
+                  sidePosts.map((post) => (
+                    <PostCard key={post.slug} post={post} minimal />
+                  ))
+                ) : (
+                  <p className="text-sm font-serif text-charcoal/50 italic">No more posts to load.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
-
