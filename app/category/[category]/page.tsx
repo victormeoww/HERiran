@@ -25,13 +25,24 @@ export async function generateMetadata({ params, searchParams }: CategoryPagePro
   
   if (!validCategories.includes(category)) {
     return {
-      title: 'Category Not Found',
+      title: lang === 'fa' ? 'دسته بندی یافت نشد' : 'Category Not Found',
     }
   }
 
+  const categoryTitles: Record<string, string> = {
+    'Essay': 'مقالات',
+    'Breaking News': 'اخبار',
+    'Personal': 'شخصی',
+  }
+
+  const displayCategory = lang === 'fa' ? (categoryTitles[category] || category) : category
+  const description = lang === 'fa' 
+    ? `مرور تمام نوشته‌های ${displayCategory} از HER iran`
+    : `Browse all ${category} posts from HER iran`
+
   return {
-    title: `${category} | HER iran`,
-    description: `Browse all ${category} posts from HER iran`,
+    title: `${displayCategory} | HER iran`,
+    description: description,
   }
 }
 
