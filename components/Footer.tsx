@@ -20,7 +20,7 @@ export default function Footer() {
               </h2>
             </Link>
             <p className="text-xl font-serif text-cream/70 leading-relaxed max-w-md italic">
-              "An anonymous platform amplifying the voices of Iranian women. Uncensored, unfiltered, and resilient."
+              &quot;An anonymous platform amplifying the voices of Iranian women. Uncensored, unfiltered, and resilient.&quot;
             </p>
           </div>
 
