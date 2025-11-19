@@ -133,20 +133,7 @@ function HeaderContent() {
 
 export default function Header() {
   return (
-    <Suspense fallback={
-      <header className="sticky top-0 z-50 py-8 bg-cream border-b border-transparent">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="flex items-center justify-between">
-            {/* Logo Fallback */}
-            <div className="group relative z-50 block">
-              <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tighter leading-none text-charcoal">
-                HER<span className="text-burgundy italic ml-1 font-serif">iran</span>
-              </h1>
-            </div>
-          </div>
-        </div>
-      </header>
-    }>
+    <Suspense fallback={<div className="h-24 bg-cream"></div>}>
       <HeaderContent />
     </Suspense>
   )

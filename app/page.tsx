@@ -1,8 +1,9 @@
 import { getAllPosts, getFeaturedPost } from '@/lib/posts'
 import PostCard from '@/components/PostCard'
 import PersianPattern from '@/components/PersianPattern'
+import { Suspense } from 'react'
 
-export default function HomePage({
+function HomeContent({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined }
@@ -100,5 +101,17 @@ export default function HomePage({
         </div>
       </section>
     </div>
+  )
+}
+
+export default function HomePage({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined }
+}) {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent searchParams={searchParams} />
+    </Suspense>
   )
 }
