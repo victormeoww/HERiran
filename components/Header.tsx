@@ -1,10 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function Header() {
+function HeaderContent() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
@@ -128,5 +128,26 @@ export default function Header() {
         </div>
       </div>
     </header>
+  )
+}
+
+export default function Header() {
+  return (
+    <Suspense fallback={
+      <header className="sticky top-0 z-50 py-8 bg-cream border-b border-transparent">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="flex items-center justify-between">
+            {/* Logo Fallback */}
+            <div className="group relative z-50 block">
+              <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tighter leading-none text-charcoal">
+                HER<span className="text-burgundy italic ml-1 font-serif">iran</span>
+              </h1>
+            </div>
+          </div>
+        </div>
+      </header>
+    }>
+      <HeaderContent />
+    </Suspense>
   )
 }

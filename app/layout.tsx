@@ -4,6 +4,8 @@ import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
+export const dynamic = 'force-dynamic'
+
 const cormorant = Cormorant_Garamond({
   weight: ['400', '600', '700'],
   subsets: ['latin'],
@@ -57,4 +59,3 @@ export default function RootLayout({
     </html>
   )
 }
-
