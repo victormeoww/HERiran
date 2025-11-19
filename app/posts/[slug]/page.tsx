@@ -8,6 +8,7 @@ interface PostPageProps {
   params: {
     slug: string
   }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateStaticParams() {
@@ -17,8 +18,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: PostPageProps) {
-  const post = getPostBySlug(params.slug)
+export async function generateMetadata({ params, searchParams }: PostPageProps) {
+  const lang = searchParams?.lang === 'en' ? 'en' : 'fa'
+  const post = getPostBySlug(params.slug, lang)
   
   if (!post) {
     return {
@@ -32,20 +34,41 @@ export async function generateMetadata({ params }: PostPageProps) {
   }
 }
 
-export default function PostPage({ params }: PostPageProps) {
-  const post = getPostBySlug(params.slug)
+export default function PostPage({ params, searchParams }: PostPageProps) {
+  const lang = searchParams?.lang === 'en' ? 'en' : 'fa'
+  const isRtl = lang === 'fa'
+  const post = getPostBySlug(params.slug, lang)
 
   if (!post) {
     notFound()
   }
 
-  const allPosts = getAllPosts()
+  const allPosts = getAllPosts(lang)
   const currentIndex = allPosts.findIndex(p => p.slug === params.slug)
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null
 
+  const texts = {
+    moreStories: lang === 'fa' ? 'داستان‌های دیگر' : 'More Stories',
+    backToHome: lang === 'fa' ? 'بازگشت به خانه' : 'Back to Home',
+    previous: lang === 'fa' ? 'قبلی' : 'Previous',
+    next: lang === 'fa' ? 'بعدی' : 'Next',
+    aiIndication: 'This content is AI-translated.',
+  }
+
+  const getLink = (slug: string) => {
+    return `/posts/${slug}${lang === 'en' ? '?lang=en' : ''}`
+  }
+
   return (
-    <article className="min-h-screen bg-cream selection:bg-burgundy/10">
+    <article className={`min-h-screen bg-cream selection:bg-burgundy/10 ${isRtl ? 'rtl' : 'ltr'}`} dir={isRtl ? 'rtl' : 'ltr'}>
+      {/* AI Indicator */}
+      {lang === 'en' && (
+        <div className="bg-burgundy/10 text-burgundy text-center py-2 text-xs font-sans font-bold tracking-widest uppercase">
+          {texts.aiIndication}
+        </div>
+      )}
+
       {/* Article Header */}
       <header className="max-w-4xl mx-auto px-6 md:px-12 pt-24 md:pt-32 pb-12 md:pb-16 text-center">
         <div className="flex items-center justify-center space-x-4 mb-8 text-xs font-sans tracking-[0.2em] uppercase text-charcoal/60">
@@ -87,16 +110,16 @@ export default function PostPage({ params }: PostPageProps) {
       <nav className="bg-white border-t border-charcoal/5 py-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <h3 className="text-center text-xs font-sans font-bold tracking-[0.2em] uppercase text-charcoal/40 mb-16">
-            More Stories
+            {texts.moreStories}
           </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-8">
+          <div className={`grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-8 ${isRtl ? 'direction-ltr' : ''}`}>
             {prevPost && (
               <Link 
-                href={`/posts/${prevPost.slug}`}
-                className="group text-center md:text-left block"
+                href={getLink(prevPost.slug)}
+                className={`group text-center block ${isRtl ? 'md:text-right' : 'md:text-left'}`}
               >
-                <span className="text-xs font-sans text-charcoal/40 mb-4 block group-hover:text-burgundy transition-colors">Previous</span>
+                <span className="text-xs font-sans text-charcoal/40 mb-4 block group-hover:text-burgundy transition-colors">{texts.previous}</span>
                 <h4 className="text-3xl font-display font-bold text-charcoal group-hover:text-burgundy transition-colors">
                   {prevPost.frontmatter.title}
                 </h4>
@@ -105,10 +128,10 @@ export default function PostPage({ params }: PostPageProps) {
 
             {nextPost && (
               <Link 
-                href={`/posts/${nextPost.slug}`}
-                className="group text-center md:text-right block"
+                href={getLink(nextPost.slug)}
+                className={`group text-center block ${isRtl ? 'md:text-left' : 'md:text-right'}`}
               >
-                <span className="text-xs font-sans text-charcoal/40 mb-4 block group-hover:text-burgundy transition-colors">Next</span>
+                <span className="text-xs font-sans text-charcoal/40 mb-4 block group-hover:text-burgundy transition-colors">{texts.next}</span>
                 <h4 className="text-3xl font-display font-bold text-charcoal group-hover:text-burgundy transition-colors">
                   {nextPost.frontmatter.title}
                 </h4>
@@ -118,10 +141,10 @@ export default function PostPage({ params }: PostPageProps) {
           
           <div className="text-center mt-24">
              <Link 
-              href="/"
+              href={lang === 'en' ? '/?lang=en' : '/'}
               className="inline-flex items-center justify-center px-8 py-4 border border-charcoal/10 rounded-full text-xs font-sans font-bold tracking-[0.2em] uppercase text-charcoal hover:bg-charcoal hover:text-cream transition-all duration-300"
             >
-              Back to Home
+              {texts.backToHome}
             </Link>
           </div>
         </div>

@@ -14,7 +14,8 @@ export default function NotFound() {
         </h1>
 
         <h2 className="text-3xl md:text-4xl font-display font-semibold text-charcoal mb-6">
-          Page Not Found
+          Page Not Found<br/>
+          <span className="text-2xl mt-2 block">صفحه مورد نظر یافت نشد</span>
         </h2>
 
         <p className="text-xl text-charcoal/70 mb-12 font-serif">
@@ -28,7 +29,7 @@ export default function NotFound() {
           <svg className="w-4 h-4 mr-2 group-hover:mr-3 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Return Home
+          Return Home / بازگشت به خانه
         </Link>
       </div>
     </div>

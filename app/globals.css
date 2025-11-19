@@ -87,6 +87,36 @@
   }
 }
 
+/* RTL Support */
+[dir="rtl"] {
+  font-family: var(--font-vazirmatn), sans-serif;
+}
+
+[dir="rtl"] h1, 
+[dir="rtl"] h2, 
+[dir="rtl"] h3, 
+[dir="rtl"] h4, 
+[dir="rtl"] h5, 
+[dir="rtl"] h6, 
+[dir="rtl"] .font-display {
+  font-family: var(--font-vazirmatn), sans-serif;
+}
+
+[dir="rtl"] .font-serif, 
+[dir="rtl"] .prose p, 
+[dir="rtl"] .prose li {
+  font-family: var(--font-vazirmatn), serif;
+}
+
+/* Disable Drop Cap for RTL */
+[dir="rtl"] .prose > p:first-of-type::first-letter {
+  float: none;
+  font-size: inherit;
+  margin: 0;
+  color: inherit;
+  line-height: inherit;
+}
+
 /* High-End Editorial Prose Styles */
 .prose {
   @apply text-charcoal max-w-none;

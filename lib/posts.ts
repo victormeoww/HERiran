@@ -20,7 +20,7 @@ export interface Post {
   readTime: number
 }
 
-export function getAllPosts(): Post[] {
+export function getAllPosts(lang: 'en' | 'fa' = 'fa'): Post[] {
   // Create directory if it doesn't exist
   if (!fs.existsSync(postsDirectory)) {
     return []
@@ -28,9 +28,9 @@ export function getAllPosts(): Post[] {
 
   const fileNames = fs.readdirSync(postsDirectory)
   const posts = fileNames
-    .filter(fileName => fileName.endsWith('.md'))
+    .filter(fileName => fileName.endsWith(`.${lang}.md`))
     .map(fileName => {
-      const slug = fileName.replace(/\.md$/, '')
+      const slug = fileName.replace(new RegExp(`\\.${lang}\\.md$`), '')
       const fullPath = path.join(postsDirectory, fileName)
       const fileContents = fs.readFileSync(fullPath, 'utf8')
       const { data, content } = matter(fileContents)
@@ -55,9 +55,9 @@ export function getAllPosts(): Post[] {
   })
 }
 
-export function getPostBySlug(slug: string): Post | null {
+export function getPostBySlug(slug: string, lang: 'en' | 'fa' = 'fa'): Post | null {
   try {
-    const fullPath = path.join(postsDirectory, `${slug}.md`)
+    const fullPath = path.join(postsDirectory, `${slug}.${lang}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const { data, content } = matter(fileContents)
     
@@ -75,13 +75,13 @@ export function getPostBySlug(slug: string): Post | null {
   }
 }
 
-export function getPostsByCategory(category: string): Post[] {
-  const allPosts = getAllPosts()
+export function getPostsByCategory(category: string, lang: 'en' | 'fa' = 'fa'): Post[] {
+  const allPosts = getAllPosts(lang)
   return allPosts.filter(post => post.frontmatter.category === category)
 }
 
-export function getFeaturedPost(): Post | null {
-  const allPosts = getAllPosts()
+export function getFeaturedPost(lang: 'en' | 'fa' = 'fa'): Post | null {
+  const allPosts = getAllPosts(lang)
   return allPosts.find(post => post.frontmatter.featured) || allPosts[0] || null
 }
 
@@ -89,9 +89,9 @@ export function formatDate(dateString: string): string {
   return format(new Date(dateString), 'MMMM d, yyyy')
 }
 
-export function getPageContent(pageName: string): { content: string; data: Record<string, unknown> } | null {
+export function getPageContent(pageName: string, lang: 'en' | 'fa' = 'fa'): { content: string; data: Record<string, unknown> } | null {
   try {
-    const fullPath = path.join(process.cwd(), 'content/pages', `${pageName}.md`)
+    const fullPath = path.join(process.cwd(), 'content/pages', `${pageName}.${lang}.md`)
     const fileContents = fs.readFileSync(fullPath, 'utf8')
     const { data, content } = matter(fileContents)
     return { content, data }

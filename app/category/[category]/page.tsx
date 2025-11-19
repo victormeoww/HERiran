@@ -8,6 +8,7 @@ interface CategoryPageProps {
   params: {
     category: string
   }
+  searchParams?: { [key: string]: string | string[] | undefined }
 }
 
 const validCategories = ['Essay', 'Breaking News', 'Personal']
@@ -18,8 +19,9 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: CategoryPageProps) {
+export async function generateMetadata({ params, searchParams }: CategoryPageProps) {
   const category = decodeURIComponent(params.category)
+  const lang = searchParams?.lang === 'en' ? 'en' : 'fa'
   
   if (!validCategories.includes(category)) {
     return {
@@ -33,35 +35,54 @@ export async function generateMetadata({ params }: CategoryPageProps) {
   }
 }
 
-export default function CategoryPage({ params }: CategoryPageProps) {
+export default function CategoryPage({ params, searchParams }: CategoryPageProps) {
   const category = decodeURIComponent(params.category)
+  const lang = searchParams?.lang === 'en' ? 'en' : 'fa'
+  const isRtl = lang === 'fa'
   
   if (!validCategories.includes(category)) {
     notFound()
   }
 
-  const posts = getPostsByCategory(category)
+  const posts = getPostsByCategory(category, lang)
+
+  const texts = {
+    browsing: lang === 'fa' ? 'دسته بندی' : 'Browsing Category',
+    noPosts: lang === 'fa' ? 'هیچ نوشته‌ای در این دسته یافت نشد.' : 'No posts found in this category.',
+    returnHome: lang === 'fa' ? 'بازگشت به صفحه اصلی' : 'Return to Homepage',
+    categories: {
+      'Essay': lang === 'fa' ? 'مقالات' : 'Essay',
+      'Breaking News': lang === 'fa' ? 'اخبار' : 'Breaking News',
+      'Personal': lang === 'fa' ? 'شخصی' : 'Personal',
+    },
+    descriptions: {
+      'Essay': lang === 'fa' ? 'تحلیل‌های عمیق و تاملاتی بر فرهنگ و سیاست.' : 'In-depth analysis and reflections on culture and politics.',
+      'Breaking News': lang === 'fa' ? 'اخبار فوری و گزارش‌های میدانی.' : 'Urgent updates and reports from the ground.',
+      'Personal': lang === 'fa' ? 'داستان‌های صمیمی و مشاهدات روزمره.' : 'Intimate stories and observations from daily life.',
+    }
+  }
+
+  const displayCategory = texts.categories[category as keyof typeof texts.categories] || category
+  const description = texts.descriptions[category as keyof typeof texts.descriptions] || ''
 
   return (
-    <div className="min-h-screen bg-cream">
+    <div className={`min-h-screen bg-cream ${isRtl ? 'rtl' : 'ltr'}`} dir={isRtl ? 'rtl' : 'ltr'}>
       {/* Category Header */}
       <section className="pt-24 pb-16 border-b border-charcoal/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
           <div className="flex flex-col items-center text-center">
             <span className="text-xs font-sans font-bold tracking-[0.2em] uppercase text-burgundy mb-4">
-              Browsing Category
+              {texts.browsing}
             </span>
             
             <h1 className="text-5xl md:text-7xl font-display font-bold text-charcoal mb-8">
-              {category}
+              {displayCategory}
             </h1>
             
             <div className="w-24 h-1 bg-burgundy/20 rounded-full mb-8"></div>
             
             <p className="text-xl font-serif text-charcoal/60 max-w-2xl">
-              {category === 'Essay' && "In-depth analysis and reflections on culture and politics."}
-              {category === 'Breaking News' && "Urgent updates and reports from the ground."}
-              {category === 'Personal' && "Intimate stories and observations from daily life."}
+              {description}
             </p>
           </div>
         </div>
@@ -77,7 +98,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
                 className="fade-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <PostCard post={post} />
+                <PostCard post={post} lang={lang} />
               </div>
             ))}
           </div>
@@ -85,13 +106,13 @@ export default function CategoryPage({ params }: CategoryPageProps) {
           <div className="text-center py-20">
             <PersianPattern variant="star" className="w-24 h-24 text-burgundy opacity-10 mx-auto mb-8" />
             <p className="text-xl text-charcoal/60 font-serif mb-8">
-              No posts found in this category.
+              {texts.noPosts}
             </p>
             <Link 
-              href="/"
+              href={lang === 'en' ? '/?lang=en' : '/'}
               className="text-burgundy border-b border-burgundy/30 hover:border-burgundy pb-1 transition-all"
             >
-              Return to Homepage
+              {texts.returnHome}
             </Link>
           </div>
         )}

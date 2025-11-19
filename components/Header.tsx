@@ -2,12 +2,18 @@
 
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const lang = searchParams.get('lang') === 'en' ? 'en' : 'fa'
+
+  const getLink = (href: string) => {
+    return lang === 'en' ? `${href}?lang=en` : href
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,10 +24,10 @@ export default function Header() {
   }, [])
 
   const categories = [
-    { name: 'Essays', href: '/category/Essay' },
-    { name: 'News', href: '/category/Breaking News' },
-    { name: 'Personal', href: '/category/Personal' },
-    { name: 'About', href: '/about' },
+    { name: lang === 'fa' ? 'مقالات' : 'Essays', href: '/category/Essay' },
+    { name: lang === 'fa' ? 'اخبار' : 'News', href: '/category/Breaking News' },
+    { name: lang === 'fa' ? 'شخصی' : 'Personal', href: '/category/Personal' },
+    { name: lang === 'fa' ? 'درباره ما' : 'About', href: '/about' },
   ]
 
   const isActive = (href: string) => pathname === href
@@ -35,20 +41,20 @@ export default function Header() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="flex items-center justify-between">
+        <div className={`flex items-center justify-between ${lang === 'fa' ? 'flex-row-reverse' : ''}`}>
           {/* Logo */}
-          <Link href="/" className="group relative z-50 block">
+          <Link href={getLink('/')} className="group relative z-50 block">
             <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tighter leading-none text-charcoal group-hover:opacity-80 transition-opacity">
               HER<span className="text-burgundy italic ml-1 font-serif">iran</span>
             </h1>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-12">
+          <nav className={`hidden md:flex items-center space-x-12 ${lang === 'fa' ? 'flex-row-reverse space-x-reverse' : ''}`}>
             {categories.map((category) => (
               <Link
                 key={category.name}
-                href={category.href}
+                href={getLink(category.href)}
                 className={`text-[11px] font-sans font-bold tracking-[0.25em] uppercase transition-all relative group py-2 ${
                   isActive(category.href) ? 'text-burgundy' : 'text-charcoal/60 hover:text-burgundy'
                 }`}
@@ -59,6 +65,15 @@ export default function Header() {
                 }`} />
               </Link>
             ))}
+            
+            {/* Language Switcher */}
+            <div className="h-4 w-px bg-charcoal/20 mx-4"></div>
+            <Link
+              href={lang === 'fa' ? `${pathname}?lang=en` : pathname}
+              className="text-[11px] font-sans font-bold tracking-[0.25em] uppercase text-charcoal hover:text-burgundy transition-colors"
+            >
+              {lang === 'fa' ? 'English' : 'فارسی'}
+            </Link>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -86,7 +101,7 @@ export default function Header() {
           {categories.map((category, idx) => (
             <Link
               key={category.name}
-              href={category.href}
+              href={getLink(category.href)}
               onClick={() => setIsMobileMenuOpen(false)}
               className="text-4xl font-display font-bold text-charcoal hover:text-burgundy hover:italic transition-all tracking-tight"
               style={{ transitionDelay: `${idx * 100}ms` }}
@@ -94,6 +109,14 @@ export default function Header() {
               {category.name}
             </Link>
           ))}
+          
+          <Link
+            href={lang === 'fa' ? `${pathname}?lang=en` : pathname}
+            onClick={() => setIsMobileMenuOpen(false)}
+             className="text-xl font-sans font-bold tracking-[0.25em] uppercase text-charcoal/60 hover:text-burgundy mt-8"
+          >
+             {lang === 'fa' ? 'English' : 'فارسی'}
+          </Link>
         </nav>
         
         {/* Decorative Pattern in Menu */}
